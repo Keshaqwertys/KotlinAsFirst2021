@@ -91,9 +91,9 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double = deg * 0.0174533 + min 
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val kated1 = x1 + x2
-    val kated2 = y1 + y2
-    return sqrt(sqr(kated1) + sqr(kated2))
+    val katedOne = x1 + x2
+    val katedTwo = y1 + y2
+    return sqrt(sqr(katedOne) + sqr(katedTwo))
 }
 
 /**
@@ -126,13 +126,16 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val PercentOneYear = initial * percent
-    val SumOneYear = initial + PercentOneYear
-    val PercentTwoYear = SumOneYear * percent
-    val SumTwoYear = SumOneYear + PercentTwoYear
-    val PercentThreeYear = SumTwoYear * percent
-    val SumThreeYear = SumTwoYear + PercentThreeYear
-    return  SumThreeYear
+    val percentDecimal = percent / 100.0
+    val percentOneYear = initial * percentDecimal
+    val sumOneYear = initial + percentOneYear
+    val percentTwoYear = sumOneYear * percentDecimal
+    val sumTwoYear = sumOneYear + percentTwoYear
+    val percentThreeYear = sumTwoYear * percentDecimal
+    val correctionOfValue:Double = Math.round(percentThreeYear * 1000.0) / 1000.0
+    val percentThreeYearCorrect = correctionOfValue
+    val sumThreeYear = sumTwoYear + percentThreeYearCorrect
+    return  sumThreeYear
 }
 
 /**
@@ -141,4 +144,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = number % 10 + number % 100 + number / 100
+fun numberRevert(number: Int): Int = number % 10 * 100 + (number % 100 / 10) * 10 + number/ 100
