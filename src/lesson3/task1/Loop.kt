@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -72,7 +74,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number = abs(n)
+    var i: Int = 0
+    do {
+        i = i + 1
+        number = number / 10
+    } while (number > 0)
+    return i
+
+}
 
 /**
  * Простая (2 балла)
@@ -80,21 +91,52 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var k:Int = 2
+    var n1: Int = 1
+    var n2: Int = 1
+    var sum: Int = 0
+    if (n <= 2) return 1
+    while (n > k) {
+        k += 1
+        sum = n1 + n2
+        n1 = n2
+        n2 = sum
+    }
+    return sum
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var i:Int = 1
+    while (i < n){
+        i += 1
+        if (n % i == 0) break
+    }
+    val minD:Int = i
+    return minD
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var i: Int = 0
+    var maxD: Int = 0
+    while(i < n){
+        i += 1
+        if (i == n) break
+        if (n % i == 0) maxD = i
+        else maxD = maxD
+    }
+    return maxD
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +154,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var i: Int = 0
+    var xD = x
+    while (xD != 1) {
+        i += 1
+        if (xD % 2 == 0) xD = xD / 2
+        else xD = 3 * xD + 1
+    }
+return i
+}
 
 /**
  * Средняя (3 балла)
@@ -120,7 +171,14 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var i: Int = 0
+    while (true){
+        i += 1
+        if ((i % m == 0) and (i % n == 0)) break
+    }
+    return i
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +187,21 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var i: Int = 1
+    var result: Boolean = true
+    val maxMN = Math.max(m,n)
+    while (i < maxMN){
+        i += 1
+        if ((m % i == 0) and (n % i == 0))
+        {
+            result = false
+            break
+        }
+        else result = true
+        }
+    return result
+}
 
 /**
  * Средняя (3 балла)
@@ -138,7 +210,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var revNum = 0
+    var number = n
+    while (number > 0){
+        revNum = revNum * 10 + number % 10
+        number = number / 10
+    }
+    return revNum
+}
 
 /**
  * Средняя (3 балла)
@@ -149,7 +229,16 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number: Int = n
+    var revNum: Int = 0
+    while (number > 0){
+        revNum = revNum * 10 + number % 10
+        number = number / 10
+    }
+    if (revNum == n) return true
+    else return false
+}
 
 /**
  * Средняя (3 балла)
@@ -159,7 +248,18 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var result:Boolean = false
+    var number: Int = n
+    var numeral = number % 10
+    number /= 10
+    while(number > 0) {
+        if (number % 10 != numeral) result = true
+        number /= 10
+    }
+    if (result == true) return true
+    else return false
+}
 
 /**
  * Средняя (4 балла)
@@ -170,7 +270,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var xC = abs(x) % (2 * PI)
+    if (x < 0) xC = xC * (-1)
+    var i: Double = 2.0
+    var f: Double = 1.0
+    var factorial: Double = 1.0
+    var sqr = xC * xC
+    var result: Double = 0.0
+    var promResult: Double = xC
+    while(abs(promResult) >= eps){
+        result = result + promResult * f
+        f = f * (-1.0)
+        factorial = factorial * (i * (i + 1.0))
+        promResult = ((xC * sqr) / factorial)
+        sqr = sqr * (xC * xC)
+        i += 2.0
+    }
+    return result
+}
 
 /**
  * Средняя (4 балла)
@@ -181,7 +299,25 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var xC = abs(x) % (2 * PI)
+    if (x < 0) xC = xC * (-1)
+    var i: Double = 2.0
+    var f: Double = 1.0
+    var factorial: Double = 1.0
+    var sqr = xC * xC
+    var result: Double = 0.0
+    var promResult: Double = 1.0
+    while(abs(promResult) >= eps){
+        result = result + promResult * f
+        f = f * (-1.0)
+        factorial = factorial * (i * (i - 1.0))
+        promResult = (sqr / factorial)
+        sqr = sqr * (xC * xC)
+        i += 2.0
+    }
+    return result
+}
 
 /**
  * Сложная (4 балла)
@@ -192,7 +328,38 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var result: Int = 0
+    var i: Int = 0
+    var j: Int = 0
+    var k: Int = 0
+    var d: Int
+    var sum: Int = 0
+    var preSum: Int = 0
+    var range: Int
+    var need: Int
+    while (sum < n){
+        i = i + 1
+        k = i * i
+        d = k
+        j = 0
+        while (d > 0){
+            d = d / 10
+            j += 1
+        }
+        preSum = sum
+        sum = sum + j
+    }
+    range = sum - preSum
+    need = n - preSum
+    if (range == need) result = k % 10
+    else while (range > need){
+        k = k / 10
+        result = k % 10
+        range = range - 1
+    }
+    return result
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +370,46 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var result: Int = 0
+    var n: Int = n
+    var j: Int = 0
+    var k: Int = 0
+    var d: Int
+    var sum: Int = 0
+    var preSum: Int = 0
+    var range: Int
+    var need: Int
+    var fib1 = 1
+    var fib2 = 1
+    if (n <= 2) {
+        sum = 2
+        preSum = 1
+        n = 4
+        k = 1
+    }
+    else {
+        while (sum < (n - 2)){
+            k = fib1 + fib2
+            fib1 = fib2
+            fib2 = k
+            d = k
+            j = 0
+            while (d > 0){
+                d = d / 10
+                j += 1
+            }
+            preSum = sum
+            sum = sum + j
+        }
+    }
+    range = sum - preSum
+    need = (n - 2) - preSum
+    if (range == need) result = k % 10
+    else while (range > need){
+        k = k / 10
+        result = k % 10
+        range = range - 1
+    }
+    return result
+}
