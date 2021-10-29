@@ -93,9 +93,9 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val katedOne = x1 + x2
-    val katedTwo = y1 + y2
-    return sqrt(sqr(katedOne) + sqr(katedTwo))
+    val katedOne = x1 - x2
+    val katedTwo = y1 - y2
+    return sqrt(katedOne.pow(2.0) + katedTwo.pow(2.0))
 }
 
 /**
@@ -128,16 +128,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val percentDecimal = percent / 100.0
-    val percentOneYear = initial * percentDecimal
-    val sumOneYear = initial + percentOneYear
-    val percentTwoYear = sumOneYear * percentDecimal
-    val sumTwoYear = sumOneYear + percentTwoYear
-    val percentThreeYear = sumTwoYear * percentDecimal
-    val correctionOfValue:Double = Math.round(percentThreeYear * 1000.0) / 1000.0
-    val percentThreeYearCorrect = correctionOfValue
-    val sumThreeYear = sumTwoYear + percentThreeYearCorrect
-    return  sumThreeYear
+    val result: Double = initial * (1.0 + percent / 100.0).pow(3.0)
+    return  result
 }
 
 /**
