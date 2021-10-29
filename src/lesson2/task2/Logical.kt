@@ -76,11 +76,9 @@ fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
 ): Boolean {
-    var result:Boolean
     var distance:Double = Math.sqrt(Math.pow((x1 - x2),2.0) + Math.pow((y1-y2),2.0))
-    if (distance <= r2 - r1) {result = true}
-    else {result = false}
-    return result
+    if (distance <= r2 - r1) return true
+    else return false
 }
 
 /**

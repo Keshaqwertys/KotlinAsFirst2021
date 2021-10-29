@@ -112,9 +112,9 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    val dangerOne = (kingX == rookX1) or (kingY == rookY1)
-    val dangerTwo = (kingX == rookX2) or (kingY == rookY2)
-    return when{
+    val dangerOne = (kingX == rookX1) || (kingY == rookY1)
+    val dangerTwo = (kingX == rookX2) || (kingY == rookY2)
+    return when {
         dangerOne and dangerTwo -> 3
         dangerOne -> 1
         dangerTwo -> 2
@@ -141,7 +141,7 @@ fun rookOrBishopThreatens(
     val changeX = kingX - bishopX
     val changeY = kingY - bishopY
     val dangerBishop = (kotlin.math.abs(changeX) == kotlin.math.abs(changeY))
-    return when{
+    return when {
         dangerBishop and dangerRook -> 3
         dangerBishop -> 2
         dangerRook -> 1
@@ -159,14 +159,18 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var hypotenuse:Double
-    var katedOne:Double
-    var katedTwo:Double
-    if ((a > b) and (a > c)) {hypotenuse = a; katedOne = b; katedTwo = c}
-    else
-    if ((b > a) and (b > c)) {hypotenuse = b; katedOne = a; katedTwo = c}
-    else {hypotenuse = c; katedOne = a; katedTwo = b}
-    return when{
+    var hypotenuse: Double
+    var katedOne: Double
+    var katedTwo: Double
+    if ((a > b) and (a > c)) {
+        hypotenuse = a; katedOne = b; katedTwo = c
+    } else
+        if ((b > a) and (b > c)) {
+            hypotenuse = b; katedOne = a; katedTwo = c
+        } else {
+            hypotenuse = c; katedOne = a; katedTwo = b
+        }
+    return when {
         ((katedOne + katedTwo) < hypotenuse) -> -1
         (hypotenuse == sqrt(pow(katedOne, 2.0) + pow(katedTwo, 2.0))) -> 1
         (hypotenuse > sqrt(pow(katedOne, 2.0) + pow(katedTwo, 2.0))) -> 2
@@ -184,8 +188,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var length:Int
+    var length: Int
     if ((b < c) or (d < a)) return -1
-    length = Math.min(b,d) - Math.max(c,a)
+    length = Math.min(b, d) - Math.max(c, a)
     return length
 }
