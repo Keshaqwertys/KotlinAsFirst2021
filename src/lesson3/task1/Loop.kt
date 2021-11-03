@@ -173,7 +173,7 @@ return i
  */
 fun lcm(m: Int, n: Int): Int {
     var i: Int = 0
-    while (true){
+    while (i < m * n){
         i += 1
         if ((i % m == 0) and (i % n == 0)) break
     }

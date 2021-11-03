@@ -94,13 +94,13 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val minRS = Math.min(r,s)
     val maxRS = Math.max(r,s)
     val maxABC = when {
-        (a > b) and (a > c) -> a
-        (b > a) and (b > c) -> b
+        (a >= b) and (a >= c) -> a
+        (b >= a) and (b >= c) -> b
         else -> c
     }
     val minABC = when {
-        (a < b) and (a < c) -> a
-        (b < a) and (b < c) -> b
+        (a <= b) and (a <= c) -> a
+        (b <= a) and (b <= c) -> b
         else -> c
     }
     val avgABC = when(minABC) {
