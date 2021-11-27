@@ -76,9 +76,8 @@ fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
 ): Boolean {
-    var distance:Double = Math.sqrt(Math.pow((x1 - x2),2.0) + Math.pow((y1-y2),2.0))
-    if (distance <= r2 - r1) return true
-    else return false
+    val distance:Double = Math.sqrt(Math.pow((x1 - x2),2.0) + Math.pow((y1-y2),2.0))
+    return distance <= r2 - r1
 }
 
 /**
@@ -94,13 +93,13 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val minRS = Math.min(r,s)
     val maxRS = Math.max(r,s)
     val maxABC = when {
-        (a >= b) and (a >= c) -> a
-        (b >= a) and (b >= c) -> b
+        (a >= b) && (a >= c) -> a
+        (b >= a) && (b >= c) -> b
         else -> c
     }
     val minABC = when {
-        (a <= b) and (a <= c) -> a
-        (b <= a) and (b <= c) -> b
+        (a <= b) && (a <= c) -> a
+        (b <= a) && (b <= c) -> b
         else -> c
     }
     val avgABC = when(minABC) {
@@ -109,7 +108,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
         else -> Math.min(a,b)
     }
     var result:Boolean = when {
-        (minABC <= minRS) and (avgABC <= maxRS) -> true
+        (minABC <= minRS) && (avgABC <= maxRS) -> true
         else -> false
     }
     return result

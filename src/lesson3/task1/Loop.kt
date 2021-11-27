@@ -4,6 +4,7 @@ package lesson3.task1
 
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -76,10 +77,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var number = abs(n)
-    var i: Int = 0
+    var i = 0
     do {
-        i = i + 1
-        number = number / 10
+        i += 1
+        number /= 10
     } while (number > 0)
     return i
 
@@ -92,10 +93,10 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var k:Int = 2
-    var n1: Int = 1
-    var n2: Int = 1
-    var sum: Int = 0
+    var k = 2
+    var n1 = 1
+    var n2 = 1
+    var sum = 0
     if (n <= 2) return 1
     while (n > k) {
         k += 1
@@ -112,13 +113,12 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i:Int = 1
-    while (i < n){
+    var i = 1
+    while (i < n) {
         i += 1
         if (n % i == 0) break
     }
-    val minD:Int = i
-    return minD
+    return i
 }
 
 /**
@@ -127,9 +127,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i: Int = 0
-    var maxD: Int = 0
-    while(i < n){
+    var i = 0
+    var maxD = 0
+    while (i < n) {
         i += 1
         if (i == n) break
         if (n % i == 0) maxD = i
@@ -155,14 +155,14 @@ fun maxDivisor(n: Int): Int {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var i: Int = 0
+    var i = 0
     var xD = x
     while (xD != 1) {
-        i += 1
-        if (xD % 2 == 0) xD = xD / 2
+        i++
+        if (xD % 2 == 0) xD /= 2
         else xD = 3 * xD + 1
     }
-return i
+    return i
 }
 
 /**
@@ -172,12 +172,13 @@ return i
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var i: Int = 0
-    while (i < m * n){
-        i += 1
-        if ((i % m == 0) and (i % n == 0)) break
+    var xM = m
+    var xN = n
+    while ((xM != 0) && (xN != 0)) {
+        if (xM > xN) xM %= xN
+        else xN %= xM
     }
-    return i
+    return m / max(xM, xN) * n
 }
 
 /**
@@ -188,18 +189,16 @@ fun lcm(m: Int, n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var i: Int = 1
-    var result: Boolean = true
-    val maxMN = Math.max(m,n)
-    while (i < maxMN){
+    var i = 1
+    var result = true
+    val maxMN = Math.max(m, n)
+    while (i < maxMN) {
         i += 1
-        if ((m % i == 0) and (n % i == 0))
-        {
+        if ((m % i == 0) and (n % i == 0)) {
             result = false
             break
-        }
-        else result = true
-        }
+        } else result = true
+    }
     return result
 }
 
@@ -213,9 +212,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun revert(n: Int): Int {
     var revNum = 0
     var number = n
-    while (number > 0){
+    while (number > 0) {
         revNum = revNum * 10 + number % 10
-        number = number / 10
+        number /= 10
     }
     return revNum
 }
@@ -231,13 +230,12 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     var number: Int = n
-    var revNum: Int = 0
-    while (number > 0){
+    var revNum = 0
+    while (number > 0) {
         revNum = revNum * 10 + number % 10
-        number = number / 10
+        number /= 10
     }
-    if (revNum == n) return true
-    else return false
+    return revNum == n
 }
 
 /**
@@ -249,16 +247,15 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var result:Boolean = false
+    var result: Boolean = false
     var number: Int = n
     var numeral = number % 10
     number /= 10
-    while(number > 0) {
+    while (number > 0) {
         if (number % 10 != numeral) result = true
         number /= 10
     }
-    if (result == true) return true
-    else return false
+    return result == true
 }
 
 /**
@@ -272,19 +269,19 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var xC = abs(x) % (2 * PI)
-    if (x < 0) xC = xC * (-1)
-    var i: Double = 2.0
-    var f: Double = 1.0
-    var factorial: Double = 1.0
+    if (x < 0) xC *= (-1)
+    var i = 2.0
+    var f = 1.0
+    var factorial = 1.0
     var sqr = xC * xC
-    var result: Double = 0.0
+    var result = 0.0
     var promResult: Double = xC
-    while(abs(promResult) >= eps){
-        result = result + promResult * f
-        f = f * (-1.0)
-        factorial = factorial * (i * (i + 1.0))
+    while (abs(promResult) >= eps) {
+        result += promResult * f
+        f *= (-1.0)
+        factorial *= (i * (i + 1.0))
         promResult = ((xC * sqr) / factorial)
-        sqr = sqr * (xC * xC)
+        sqr *= (xC * xC)
         i += 2.0
     }
     return result
@@ -301,19 +298,19 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var xC = abs(x) % (2 * PI)
-    if (x < 0) xC = xC * (-1)
-    var i: Double = 2.0
-    var f: Double = 1.0
-    var factorial: Double = 1.0
+    if (x < 0) xC *= (-1)
+    var i = 2.0
+    var f = 1.0
+    var factorial = 1.0
     var sqr = xC * xC
-    var result: Double = 0.0
-    var promResult: Double = 1.0
-    while(abs(promResult) >= eps){
-        result = result + promResult * f
-        f = f * (-1.0)
-        factorial = factorial * (i * (i - 1.0))
+    var result = 0.0
+    var promResult = 1.0
+    while (abs(promResult) >= eps) {
+        result += promResult * f
+        f *= (-1.0)
+        factorial *= (i * (i - 1.0))
         promResult = (sqr / factorial)
-        sqr = sqr * (xC * xC)
+        sqr *= (xC * xC)
         i += 2.0
     }
     return result
@@ -329,34 +326,34 @@ fun cos(x: Double, eps: Double): Double {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var result: Int = 0
-    var i: Int = 0
-    var j: Int = 0
-    var k: Int = 0
+    var result = 0
+    var i = 0
+    var j: Int
+    var k = 0
     var d: Int
-    var sum: Int = 0
-    var preSum: Int = 0
+    var sum = 0
+    var preSum = 0
     var range: Int
-    var need: Int
-    while (sum < n){
-        i = i + 1
+    val need: Int
+    while (sum < n) {
+        i += 1
         k = i * i
         d = k
         j = 0
-        while (d > 0){
-            d = d / 10
+        while (d > 0) {
+            d /= 10
             j += 1
         }
         preSum = sum
-        sum = sum + j
+        sum += j
     }
     range = sum - preSum
     need = n - preSum
     if (range == need) result = k % 10
-    else while (range > need){
-        k = k / 10
+    else while (range > need) {
+        k /= 10
         result = k % 10
-        range = range - 1
+        range -= 1
     }
     return result
 }
@@ -371,45 +368,42 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var result: Int = 0
-    var n: Int = n
-    var j: Int = 0
-    var k: Int = 0
+    var result = 0
+    var number: Int = n
+    var j: Int
+    var k = 0
     var d: Int
-    var sum: Int = 0
-    var preSum: Int = 0
-    var range: Int
-    var need: Int
+    var sum = 0
+    var preSum = 0
     var fib1 = 1
     var fib2 = 1
-    if (n <= 2) {
+    if (number <= 2) {
         sum = 2
         preSum = 1
-        n = 4
+        number = 4
         k = 1
-    }
-    else {
-        while (sum < (n - 2)){
+    } else {
+        while (sum < (number - 2)) {
             k = fib1 + fib2
             fib1 = fib2
             fib2 = k
             d = k
             j = 0
-            while (d > 0){
-                d = d / 10
+            while (d > 0) {
+                d /= 10
                 j += 1
             }
             preSum = sum
-            sum = sum + j
+            sum += j
         }
     }
-    range = sum - preSum
-    need = (n - 2) - preSum
+    var range: Int = sum - preSum
+    val need: Int = (number - 2) - preSum
     if (range == need) result = k % 10
-    else while (range > need){
-        k = k / 10
+    else while (range > need) {
+        k /= 10
         result = k % 10
-        range = range - 1
+        range -= 1
     }
     return result
 }

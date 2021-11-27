@@ -162,14 +162,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     var hypotenuse: Double
     var katedOne: Double
     var katedTwo: Double
-    if ((a > b) and (a > c)) {
-        hypotenuse = a; katedOne = b; katedTwo = c
-    } else
-        if ((b > a) and (b > c)) {
-            hypotenuse = b; katedOne = a; katedTwo = c
-        } else {
-            hypotenuse = c; katedOne = a; katedTwo = b
-        }
+    if ((a > b) and (a > c)) {hypotenuse = a; katedOne = b; katedTwo = c
+    } else if ((b > a) and (b > c)) {hypotenuse = b; katedOne = a; katedTwo = c
+    } else { hypotenuse = c; katedOne = a; katedTwo = b
+    }
     return when {
         ((katedOne + katedTwo) < hypotenuse) -> -1
         (hypotenuse == sqrt(pow(katedOne, 2.0) + pow(katedTwo, 2.0))) -> 1
