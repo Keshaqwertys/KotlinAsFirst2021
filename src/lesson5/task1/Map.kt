@@ -151,9 +151,9 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    var aa = a.toSet()
-    var bb = b.toSet()
-    return (aa.intersect(bb).toList())
+    var aA = a.toSet()
+    var bB = b.toSet()
+    return (aA.intersect(bB).toList())
 }
 
 /**
