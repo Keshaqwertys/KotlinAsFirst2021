@@ -19,12 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    var sumOne:Int = (number / 1000) + (number % 1000 / 100)
-    var sumTwo:Int = (number % 100 / 10) + (number % 10)
-    var result:Boolean
-    if (sumOne == sumTwo) result = true
-    else result = false
-    return result
+    val sumOne: Int = (number / 1000) + (number % 1000 / 100)
+    val sumTwo: Int = (number % 100 / 10) + (number % 10)
+    return sumOne == sumTwo
 }
 
 /**
@@ -35,12 +32,12 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val dangerOne = (x1 == x2) or (y1 == y2)
+    val dangerOne = (x1 == x2) || (y1 == y2)
     val changeX = x1 - x2
     val changeY = y1 - y2
     val dangerTwo = (Math.abs(changeX) == Math.abs(changeY))
     return when {
-        dangerOne or dangerTwo -> true
+        dangerOne || dangerTwo -> true
         else -> false
     }
 }
@@ -54,11 +51,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun daysInMonth(month: Int, year: Int): Int {
     return when {
-        (month in 1..7) and (month % 2 != 0) -> 31
-        (month in 8..12) and (month % 2 == 0) -> 31
-        month == 2 -> when{
+        (month in 1..7) && (month % 2 != 0) -> 31
+        (month in 8..12) && (month % 2 == 0) -> 31
+        month == 2 -> when {
             (year % 4 != 0) -> 28
-            (year % 100 == 0) and (year % 400 != 0) -> 28
+            (year % 100 == 0) && (year % 400 != 0) -> 28
             else -> 29
         }
         else -> 30
@@ -76,7 +73,7 @@ fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
 ): Boolean {
-    val distance:Double = Math.sqrt(Math.pow((x1 - x2),2.0) + Math.pow((y1-y2),2.0))
+    val distance = Math.sqrt(Math.pow((x1 - x2), 2.0) + Math.pow((y1 - y2), 2.0))
     return distance <= r2 - r1
 }
 
@@ -90,8 +87,8 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val minRS = Math.min(r,s)
-    val maxRS = Math.max(r,s)
+    val minRS = Math.min(r, s)
+    val maxRS = Math.max(r, s)
     val maxABC = when {
         (a >= b) && (a >= c) -> a
         (b >= a) && (b >= c) -> b
@@ -102,12 +99,12 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
         (b <= a) && (b <= c) -> b
         else -> c
     }
-    val avgABC = when(minABC) {
+    val avgABC = when (minABC) {
         a -> Math.min(b, c)
         b -> Math.min(a, c)
-        else -> Math.min(a,b)
+        else -> Math.min(a, b)
     }
-    var result:Boolean = when {
+    val result = when {
         (minABC <= minRS) && (avgABC <= maxRS) -> true
         else -> false
     }

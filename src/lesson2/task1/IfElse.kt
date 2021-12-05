@@ -73,8 +73,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     if (age % 100 in 11..14) return "$age лет"
     if (age % 10 in 2..4) return "$age года"
-    if (age % 10 == 1) return "$age год"
-    else return "$age лет"
+    return if (age % 10 == 1) "$age год"
+    else "$age лет"
 }
 
 /**
@@ -94,8 +94,8 @@ fun timeForHalfWay(
     val s3 = v3 * t3
     val halfTrack = (s1 + s2 + s3) / 2
     if (s1 >= halfTrack) return (halfTrack / v1)
-    if (s1 + s2 >= halfTrack) return ((halfTrack - s1) / v2) + t1
-    else return ((halfTrack - s2 - s1) / v3) + t1 + t2
+    return if (s1 + s2 >= halfTrack) ((halfTrack - s1) / v2) + t1
+    else ((halfTrack - s2 - s1) / v3) + t1 + t2
 }
 
 /**
@@ -137,7 +137,7 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    val dangerRook = (kingX == rookX) or (kingY == rookY)
+    val dangerRook = (kingX == rookX) || (kingY == rookY)
     val changeX = kingX - bishopX
     val changeY = kingY - bishopY
     val dangerBishop = (kotlin.math.abs(changeX) == kotlin.math.abs(changeY))
@@ -159,9 +159,9 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var hypotenuse: Double
-    var katedOne: Double
-    var katedTwo: Double
+    val hypotenuse: Double
+    val katedOne: Double
+    val katedTwo: Double
     if ((a > b) and (a > c)) {hypotenuse = a; katedOne = b; katedTwo = c
     } else if ((b > a) and (b > c)) {hypotenuse = b; katedOne = a; katedTwo = c
     } else { hypotenuse = c; katedOne = a; katedTwo = b
@@ -184,7 +184,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var length: Int
+    val length: Int
     if ((b < c) or (d < a)) return -1
     length = Math.min(b, d) - Math.max(c, a)
     return length

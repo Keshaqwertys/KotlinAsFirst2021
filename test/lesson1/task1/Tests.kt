@@ -66,6 +66,7 @@ class Tests {
     fun angleInRadian() {
         assertEquals(0.63256, angleInRadian(36, 14, 35), 1e-5)
         assertEquals(PI / 2.0, angleInRadian(90, 0, 0), 1e-5)
+        assertEquals(0.004072434921322005, angleInRadian(0, 14, 0), 1e-5)
     }
 
     @Test
@@ -74,6 +75,7 @@ class Tests {
         assertEquals(5.0, trackLength(3.0, 0.0, 0.0, 4.0), 1e-5)
         assertEquals(1.0, trackLength(0.0, 1.0, -1.0, 1.0), 1e-5)
         assertEquals(1.41, trackLength(1.0, 1.0, 2.0, 2.0), 1e-2)
+        assertEquals(0.0, trackLength(0.0, 1.0, 0.0, 1.0), 1e-2)
     }
 
     @Test
@@ -97,6 +99,7 @@ class Tests {
         assertEquals(133.1, accountInThreeYears(100, 10), 1e-2)
         assertEquals(1.0, accountInThreeYears(1, 0), 1e-2)
         assertEquals(104.0, accountInThreeYears(13, 100), 1e-2)
+        assertEquals(1.030301, accountInThreeYears(1, 1), 1e-2)
     }
 
     @Test
