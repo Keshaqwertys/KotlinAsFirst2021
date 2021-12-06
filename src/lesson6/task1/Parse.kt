@@ -74,7 +74,66 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val line = str.split(" ")
+    val result = mutableListOf<String>()
+    var i = 1
+    var element: Int = -1
+    var days: Int = -1
+    var month: Int = -1
+    var year: Int = -1
+    try {
+        for (s in line) {
+            if (i == 1) {
+                element = s.toInt()
+                days = element
+                if (days > 31) return ""
+            }
+            if (i == 2) {
+                element = when (s) {
+                    "января" -> 1
+                    "февраля" -> 2
+                    "марта" -> 3
+                    "апреля" -> 4
+                    "мая" -> 5
+                    "июня" -> 6
+                    "июля" -> 7
+                    "августа" -> 8
+                    "сентября" -> 9
+                    "октября" -> 10
+                    "ноября" -> 11
+                    "декабря" -> 12
+                    else -> -2
+                }
+                month = element
+                if (month == -2) return ""
+            }
+            if (i == 3) {
+                element = s.toInt()
+                year = element
+            }
+            val daysInMonth = when {
+                (month in 1..7) && (month % 2 != 0) -> 31
+                (month in 8..12) && (month % 2 == 0) -> 31
+                month == 2 -> when {
+                    (year % 4 != 0) -> 28
+                    (year % 100 == 0) && (year % 400 != 0) -> 28
+                    else -> 29
+                }
+                else -> 30
+            }
+            if (year != -1) if (days > daysInMonth) return ""
+            var elementString = element.toString()
+            if (((i == 1) || (i == 2)) && (element in 1..9)) elementString = "0$element"
+            result += elementString
+            i++
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (result.count() != 3) return ""
+    return result.joinToString(".")
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +145,65 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val line = digital.split(".")
+    var i = 1
+    var elementString = ""
+    val result = mutableListOf<String>()
+    try {
+        for (s in line) {
+            when (i) {
+                1 -> {
+                    elementString = s.toInt().toString()
+                    if (s.toInt() > 31) return ""
+                }
+                2 -> {
+                    elementString = when (s) {
+                        "01" -> "января"
+                        "02" -> "февраля"
+                        "03" -> "марта"
+                        "04" -> "апреля"
+                        "05" -> "мая"
+                        "06" -> "июня"
+                        "07" -> "июля"
+                        "08" -> "августа"
+                        "09" -> "сентября"
+                        "10" -> "октября"
+                        "11" -> "ноября"
+                        "12" -> "декабря"
+                        else -> "ошибка"
+                    }
+                    if (elementString == "ошибка") return ""
+                }
+                3 -> {
+                    elementString = s.toInt().toString()
+                }
+            }
+            if (i == 3) {
+                val day = line[0].toInt()
+                val month = line[1].toInt()
+                val year = line[2].toInt()
+                val daysInYear = when {
+                    (month in 1..7) && (month % 2 != 0) -> 31
+                    (month in 8..12) && (month % 2 == 0) -> 31
+                    month == 2 -> when {
+                        (year % 4 != 0) -> 28
+                        (year % 100 == 0) && (year % 400 != 0) -> 28
+                        else -> 29
+                    }
+                    else -> 30
+                }
+                if (day > daysInYear) return ""
+            }
+            result += elementString
+            i++
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (result.count() != 3) return ""
+    return (result.joinToString(" "))
+}
 
 /**
  * Средняя (4 балла)
