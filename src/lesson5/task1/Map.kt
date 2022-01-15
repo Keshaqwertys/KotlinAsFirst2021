@@ -120,7 +120,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((key, value) in b) {
         if (b.containsValue(a[key])) return true
     }
-    return (a.isEmpty() == true) && (b.isEmpty() == true)
+    return a.isEmpty()
 }
 
 /**
@@ -253,8 +253,10 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
         wordChar.add(word[i])
         i++
     }
-    return if (word == "") true
-    else setChar == wordChar
+    for (char in wordChar){
+        if (char !in setChar) return false
+    }
+    return true
 }
 
 /**
