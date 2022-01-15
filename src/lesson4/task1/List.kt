@@ -121,14 +121,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var i = 0
-    var number: Double
     var result = 0.0
-    while (i in v.indices) {
-        number = v[i]
-        number = Math.pow(number, 2.0)
+    for (n in v){
+        val number = Math.pow(n, 2.0)
         result += number
-        i++
     }
     result = sqrt(result)
     return result
@@ -140,16 +136,12 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var i = 0
-    var number: Double
     var sum = 0.0
-    while (i in list.indices) {
-        number = list[i]
-        sum += number
-        i++
+    for (n in list) {
+        sum += n
     }
     return if (list.isEmpty()) 0.0
-    else sum / i
+    else sum / list.size
 }
 
 /**
@@ -282,23 +274,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    val list = mutableListOf<Int>()
-    val sList = mutableListOf<String>()
-    var number = n
-    var d = 2
-    var s: String
-    while (number > 1) {
-        while (number % d == 0) {
-            list.add(d)
-            s = d.toString()
-            sList.add(s)
-            number /= d
-        }
-        d++
-    }
-    return sList.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -328,54 +304,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
+val alphabet = "abcdefghijklmnopqrstuvwxyz"
 fun convertToString(n: Int, base: Int): String {
     var n = n
-    var k: Int
-    var m: String
-    val alphabet = mutableListOf(
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z"
-    )
-    val result: String
-    val list = mutableListOf<Int>()
-    val slist = mutableListOf<Any>()
-    do {
-        list.add(0, n % base)
-        k = n % base
-        if (k < 10) {
-            slist.add(0, k)
-        } else {
-            m = alphabet[k - 10]
-            slist.add(0, m)
-        }
-        n /= base
-    } while (n > 0)
-    result = slist.joinToString(separator = "")
-    return result
+    var counter = 0
+    val list = mutableListOf<Any>()
+    val slist = convert(n,base)
+    for (k in slist){
+        if (k < 10) list.add(k)
+        else list.add(alphabet[k - 10])
+        counter += 1
+    }
+    return list.joinToString(separator = "")
 }
 
 /**
@@ -466,29 +406,29 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val number = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val numberDec = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val tensDec = listOf(
+    "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+    "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+)
+val tens = listOf(
+    "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
+    "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
+)
+val hundred = listOf(
+    "сто",
+    "двести",
+    "триста",
+    "четыреста",
+    "пятьсот",
+    "шестьсот",
+    "семьсот",
+    "восемьсот",
+    "девятьсот"
+)
+val conditionCHI = listOf("две", "три", "четыре")
 fun russian(n: Int): String {
-    val number = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val numberDec = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val tensDec = listOf(
-        "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
-        "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
-    )
-    val tens = listOf(
-        "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
-        "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
-    )
-    val hundred = listOf(
-        "сто",
-        "двести",
-        "триста",
-        "четыреста",
-        "пятьсот",
-        "шестьсот",
-        "семьсот",
-        "восемьсот",
-        "девятьсот"
-    )
-    val conditionCHI = listOf("две", "три", "четыре")
     var n = n
     var i = 0
     var r = 0
@@ -516,7 +456,7 @@ fun russian(n: Int): String {
         }
         when {
             (i == 1) -> {
-                if ((list[1] in number) and (list[0] == tens[0])) {
+                if ((list[1] in number) && (list[0] == tens[0])) {
                     list[0] = tensDec[x - 1]
                     list.removeAt(1)
                 }
@@ -524,7 +464,7 @@ fun russian(n: Int): String {
         }
         when {
             (i == 4) -> {
-                if ((list[1] in numberDec) and (list[0] == tens[0])) {
+                if ((list[1] in numberDec) && (list[0] == tens[0])) {
                     list[1] = tensDec[x - 1]
                     list.removeAt(0)
                     a = 1
@@ -534,14 +474,14 @@ fun russian(n: Int): String {
         i++
         x = r
     }
-    if (("Тысяч" in list) and (i == 4)) {
+    if (("Тысяч" in list) && (i == 4)) {
         when {
             (list[0] == "одна") -> list[1] = "тысяча"
             (list[0] in conditionCHI) -> list[1] = "тысячи"
             else -> list[1] = "тысяч"
         }
     }
-    if (("Тысяч" in list) and (i == 5)) {
+    if (("Тысяч" in list) && (i == 5)) {
         when (a) {
             0 -> {
                 when {
@@ -555,7 +495,7 @@ fun russian(n: Int): String {
             }
         }
     }
-    if (("Тысяч" in list) and (i == 6)) {
+    if (("Тысяч" in list) && (i == 6)) {
         when (a) {
             0 -> {
                 when {
