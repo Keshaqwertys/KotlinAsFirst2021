@@ -248,11 +248,11 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
         wordChar.add(word[i])
         i++
     }
-    for (k in setChar){
+    for (k in setChar) {
         setChar -= k
         setChar += k.lowercaseChar()
     }
-    for (char in wordChar){
+    for (char in wordChar) {
         if (char.lowercaseChar() !in setChar) return false
     }
     return true
@@ -272,9 +272,16 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
+    val filter = mutableListOf<String>()
     for (char in list) {
         if (char in result) result[char] = result[char]!! + 1
         else result[char] = 1
+    }
+    for (c in result){
+        if (c.value == 1) filter += c.key
+    }
+    for (k in filter){
+        if (k in result) result.remove(k)
     }
     return result
 }
