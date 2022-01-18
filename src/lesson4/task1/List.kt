@@ -122,7 +122,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var result = 0.0
-    for (n in v){
+    for (n in v) {
         val number = Math.pow(n, 2.0)
         result += number
     }
@@ -309,8 +309,8 @@ fun convertToString(n: Int, base: Int): String {
     var n = n
     var counter = 0
     val list = mutableListOf<Any>()
-    val slist = convert(n,base)
-    for (k in slist){
+    val slist = convert(n, base)
+    for (k in slist) {
         if (k < 10) list.add(k)
         else list.add(alphabet[k - 10])
         counter += 1
@@ -428,6 +428,15 @@ val hundred = listOf(
     "девятьсот"
 )
 val conditionCHI = listOf("две", "три", "четыре")
+fun determination(a: Int, b: Int, list: MutableList<String>): String {
+    val answer = when {
+        (list[a] == "одна") -> "тысяча"
+        (list[a] in conditionCHI) -> "тысячи"
+        else -> "тысяч"
+    }
+    return answer
+}
+
 fun russian(n: Int): String {
     var n = n
     var i = 0
@@ -474,48 +483,23 @@ fun russian(n: Int): String {
         i++
         x = r
     }
-    if (("Тысяч" in list) && (i == 4)) {
-        when {
-            (list[0] == "одна") -> list[1] = "тысяча"
-            (list[0] in conditionCHI) -> list[1] = "тысячи"
-            else -> list[1] = "тысяч"
-        }
-    }
+    if (("Тысяч" in list) && (i == 4)) list[1] = determination(0, 1, list)
     if (("Тысяч" in list) && (i == 5)) {
         when (a) {
-            0 -> {
-                when {
-                    (list[1] == "одна") -> list[2] = "тысяча"
-                    (list[1] in conditionCHI) -> list[2] = "тысячи"
-                    else -> list[2] = "тысяч"
-                }
-            }
-            1 -> {
-                list[1] = "тысяч"
-            }
+            0 -> list[2] = determination(1, 2, list)
+            1 -> list[1] = "тысяч"
         }
     }
     if (("Тысяч" in list) && (i == 6)) {
         when (a) {
-            0 -> {
-                when {
-                    (list[2] == "одна") -> list[3] = "тысяча"
-                    (list[2] in conditionCHI) -> list[3] = "тысячи"
-                    else -> list[3] = "тысяч"
-                }
-            }
-            1 -> {
-                list[2] = "тысяч"
-            }
+            0 -> list[3] = determination(2, 3, list)
+            1 -> list[2] = "тысяч"
         }
     }
-    println(list)
     list.remove("")
     list.remove("")
     list.remove("")
     list.remove("")
     list.remove("")
-    val result: String = list.joinToString(separator = " ")
-    return result
-
+    return list.joinToString(separator = " ")
 }
