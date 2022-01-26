@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,6 +76,10 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val numOfTheMonth = mapOf(
+    "января" to 1, "февраля" to 2, "марта" to 3, "апреля" to 4, "мая" to 5, "июня" to 6,
+    "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10, "ноября" to 11, "декабря" to 12
+)
 fun dateStrToDigit(str: String): String {
     val line = str.split(" ")
     val result = mutableListOf<String>()
@@ -90,21 +96,7 @@ fun dateStrToDigit(str: String): String {
                 if (days > 31) return ""
             }
             if (i == 2) {
-                element = when (s) {
-                    "января" -> 1
-                    "февраля" -> 2
-                    "марта" -> 3
-                    "апреля" -> 4
-                    "мая" -> 5
-                    "июня" -> 6
-                    "июля" -> 7
-                    "августа" -> 8
-                    "сентября" -> 9
-                    "октября" -> 10
-                    "ноября" -> 11
-                    "декабря" -> 12
-                    else -> -2
-                }
+                element = numOfTheMonth.getOrDefault(s, -2)
                 month = element
                 if (month == -2) return ""
             }
@@ -112,19 +104,10 @@ fun dateStrToDigit(str: String): String {
                 element = s.toInt()
                 year = element
             }
-            val daysInMonth = when {
-                (month in 1..7) && (month % 2 != 0) -> 31
-                (month in 8..12) && (month % 2 == 0) -> 31
-                month == 2 -> when {
-                    (year % 4 != 0) -> 28
-                    (year % 100 == 0) && (year % 400 != 0) -> 28
-                    else -> 29
-                }
-                else -> 30
-            }
+            val daysInMonth = daysInMonth(month, year)
             if (year != -1) if (days > daysInMonth) return ""
             var elementString = element.toString()
-            if (((i == 1) || (i == 2)) && (element in 1..9)) elementString = "0$element"
+            if ((i == 1) || (i == 2)) elementString = String.format("%02d", element)
             result += elementString
             i++
         }
@@ -145,6 +128,10 @@ fun dateStrToDigit(str: String): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
+val monthOfTheNum = mapOf(
+    "01" to "января", "02" to "февраля", "03" to "марта", "04" to "апреля", "05" to "мая", "06" to "июня",
+    "07" to "июля", "08" to "августа", "09" to "сентября", "10" to "октября", "11" to "ноября", "12" to "декабря"
+)
 fun dateDigitToStr(digital: String): String {
     val line = digital.split(".")
     var i = 1
@@ -158,21 +145,7 @@ fun dateDigitToStr(digital: String): String {
                     if (s.toInt() > 31) return ""
                 }
                 2 -> {
-                    elementString = when (s) {
-                        "01" -> "января"
-                        "02" -> "февраля"
-                        "03" -> "марта"
-                        "04" -> "апреля"
-                        "05" -> "мая"
-                        "06" -> "июня"
-                        "07" -> "июля"
-                        "08" -> "августа"
-                        "09" -> "сентября"
-                        "10" -> "октября"
-                        "11" -> "ноября"
-                        "12" -> "декабря"
-                        else -> "ошибка"
-                    }
+                    elementString = monthOfTheNum.getOrDefault(s, "ошибка")
                     if (elementString == "ошибка") return ""
                 }
                 3 -> {
@@ -183,16 +156,7 @@ fun dateDigitToStr(digital: String): String {
                 val day = line[0].toInt()
                 val month = line[1].toInt()
                 val year = line[2].toInt()
-                val daysInYear = when {
-                    (month in 1..7) && (month % 2 != 0) -> 31
-                    (month in 8..12) && (month % 2 == 0) -> 31
-                    month == 2 -> when {
-                        (year % 4 != 0) -> 28
-                        (year % 100 == 0) && (year % 400 != 0) -> 28
-                        else -> 29
-                    }
-                    else -> 30
-                }
+                val daysInYear = daysInMonth(month, year)
                 if (day > daysInYear) return ""
             }
             result += elementString

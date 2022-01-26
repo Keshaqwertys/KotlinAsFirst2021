@@ -348,19 +348,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    var number = 1
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
     val list = mutableListOf<Int>()
-    for (i in str) {
-        if (i in alphabet) list.add(i - 'a' + 10)
-        else list.add(i - '0')
+    for (char in str) {
+        if (char in alphabet) list.add(char - 'a' + 10)
+        else list.add(char - '0')
     }
-    for (k in list.size - 1 downTo 0) {
-        result += (number * list[k])
-        number *= base
-    }
-    return result
+    return decimal(list, base)
 }
 
 /**
@@ -438,15 +432,15 @@ fun determination(a: Int, b: Int, list: MutableList<String>): String {
 }
 
 fun russian(n: Int): String {
-    var n = n
-    var i = 0
-    var r = 0
-    var a = 0
+    var num = n
+    var step = 0
+    var curNum = 0
+    var switch = 0
     val list = mutableListOf<String>()
     var rank = listOf<String>()
-    var x = 0
-    while (n > 0) {
-        when (i) {
+    var prevNum = 0
+    while (num > 0) {
+        when (step) {
             0 -> rank = number
             1 -> rank = tens
             2 -> rank = hundred
@@ -454,44 +448,44 @@ fun russian(n: Int): String {
             4 -> rank = tens
             5 -> rank = hundred
         }
-        r = n % 10
-        n /= 10
-        if (i == 3) list.add(0, "Тысяч")
-        when (r) {
-            in 1..9 -> list.add(0, rank[r - 1])
+        curNum = num % 10
+        num /= 10
+        if (step == 3) list.add(0, "plug")
+        when (curNum) {
+            in 1..9 -> list.add(0, rank[curNum - 1])
         }
-        when (r) {
+        when (curNum) {
             0 -> list.add(0, "")
         }
         when {
-            (i == 1) -> {
+            (step == 1) -> {
                 if ((list[1] in number) && (list[0] == tens[0])) {
-                    list[0] = tensDec[x - 1]
+                    list[0] = tensDec[prevNum - 1]
                     list.removeAt(1)
                 }
             }
         }
         when {
-            (i == 4) -> {
+            (step == 4) -> {
                 if ((list[1] in numberDec) && (list[0] == tens[0])) {
-                    list[1] = tensDec[x - 1]
+                    list[1] = tensDec[prevNum - 1]
                     list.removeAt(0)
-                    a = 1
+                    switch = 1
                 }
             }
         }
-        i++
-        x = r
+        step++
+        prevNum = curNum
     }
-    if (("Тысяч" in list) && (i == 4)) list[1] = determination(0, 1, list)
-    if (("Тысяч" in list) && (i == 5)) {
-        when (a) {
+    if (("plug" in list) && (step == 4)) list[1] = determination(0, 1, list)
+    if (("plug" in list) && (step == 5)) {
+        when (switch) {
             0 -> list[2] = determination(1, 2, list)
             1 -> list[1] = "тысяч"
         }
     }
-    if (("Тысяч" in list) && (i == 6)) {
-        when (a) {
+    if (("plug" in list) && (step == 6)) {
+        when (switch) {
             0 -> list[3] = determination(2, 3, list)
             1 -> list[2] = "тысяч"
         }

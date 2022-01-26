@@ -171,7 +171,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val mapResult = mapA.toMutableMap()
     for ((key, value) in mapB) {
-        if ((key in mapResult) and (value != mapResult[key])) mapResult[key] += ", $value"
+        if ((key in mapResult) && (value != mapResult[key])) mapResult[key] += ", $value"
         else mapResult += key to value
     }
     return mapResult
@@ -241,19 +241,12 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    var setChar = chars.toSet()
     val wordChar = mutableSetOf<Char>()
-    var i = 0
-    while (i <= word.length - 1) {
-        wordChar.add(word[i])
-        i++
+    for (c in chars) {
+        wordChar += c.toLowerCase()
     }
-    for (k in setChar) {
-        setChar -= k
-        setChar += k.lowercaseChar()
-    }
-    for (char in wordChar) {
-        if (char.lowercaseChar() !in setChar) return false
+    for (char in word.toLowerCase()) {
+        if (char !in wordChar) return false
     }
     return true
 }
@@ -274,13 +267,13 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     val filter = mutableListOf<String>()
     for (char in list) {
-        if (char in result) result[char] = result[char]!! + 1
+        if (char in result) result[char] = (result[char] ?: 0) + 1
         else result[char] = 1
     }
-    for (c in result){
+    for (c in result) {
         if (c.value == 1) filter += c.key
     }
-    for (k in filter){
+    for (k in filter) {
         if (k in result) result.remove(k)
     }
     return result
