@@ -293,6 +293,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     for (elmt in result){
         if (elmt.length == max) need += elmt
     }
+    if (need.isEmpty()) need.add("")
     val writer = File(inputName).bufferedWriter()
     writer.use { it.write(need.joinToString(", ")) }
 }
