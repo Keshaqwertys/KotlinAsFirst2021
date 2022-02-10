@@ -242,9 +242,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val wordChar = mutableSetOf<Char>()
-    for (c in chars) {
-        wordChar += c.toLowerCase()
-    }
+    chars.map { wordChar += it.toLowerCase() }
     for (char in word.toLowerCase()) {
         if (char !in wordChar) return false
     }
@@ -292,13 +290,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    var word = setOf<Char>()
     var t: Int
     for (i in words.indices) {
-        word = words[i].toSet()
         t = i
         while (t + 1 <= (words.size - 1)) {
-            if (word == words[t + 1].toSet()) return true
+            if (words[i].toSet() == words[t + 1].toSet()) return true
             t++
         }
     }

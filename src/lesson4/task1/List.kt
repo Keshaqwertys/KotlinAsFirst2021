@@ -434,7 +434,7 @@ fun determination(a: Int, b: Int, list: MutableList<String>): String {
 fun russian(n: Int): String {
     var num = n
     var step = 0
-    var curNum = 0
+    var curNum: Int
     var switch = 0
     val list = mutableListOf<String>()
     var rank = listOf<String>()
@@ -477,23 +477,19 @@ fun russian(n: Int): String {
         step++
         prevNum = curNum
     }
-    if (("plug" in list) && (step == 4)) list[1] = determination(0, 1, list)
-    if (("plug" in list) && (step == 5)) {
+    if (step == 4) list[1] = determination(0, 1, list)
+    if (step == 5) {
         when (switch) {
             0 -> list[2] = determination(1, 2, list)
             1 -> list[1] = "тысяч"
         }
     }
-    if (("plug" in list) && (step == 6)) {
+    if (step == 6) {
         when (switch) {
             0 -> list[3] = determination(2, 3, list)
             1 -> list[2] = "тысяч"
         }
     }
-    list.remove("")
-    list.remove("")
-    list.remove("")
-    list.remove("")
-    list.remove("")
+    list.removeAll(listOf(""))
     return list.joinToString(separator = " ")
 }
