@@ -30,6 +30,8 @@ class PolynomTest {
         assertEquals(0, q.degree())
         val r = Polynom(0.0, 1.0, 2.0)
         assertEquals(1, r.degree())
+        val s = Polynom(1.0, 0.0, 2.0)
+        assertEquals(2, s.degree())
     }
 
     @Test
