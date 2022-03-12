@@ -130,6 +130,7 @@ class PhoneBook {
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
     override fun equals(other: Any?): Boolean {
+        if (this === other) return true
         if (other !is PhoneBook) return false
         var otherCount = 0
         var current = other.start
