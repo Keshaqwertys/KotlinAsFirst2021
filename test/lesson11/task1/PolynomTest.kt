@@ -18,6 +18,7 @@ class PolynomTest {
     @Tag("4")
     fun getValue() {
         val p = Polynom(1.0, 3.0, 2.0)
+        //p.coeff(4)
         assertEquals(42.0, p.getValue(5.0), 1e-10)
     }
 

@@ -2,6 +2,8 @@
 
 package lesson11.task1
 
+import kotlin.math.max
+
 /**
  * Класс "полином с вещественными коэффициентами".
  *
@@ -24,18 +26,19 @@ class Polynom(vararg coeffs: Double) {
 
     init {
         val startIndex = coeffs.indexOfFirst { it != 0.0 }
-        if (startIndex == -1) {
-            this.coefficients = mutableListOf()
-        } else {
-            this.coefficients = mutableListOf()
-            for (i in 0 until (coeffs.size - startIndex)) this.coefficients.add(coeffs[coeffs.size - 1 - i])
-        }
+        this.coefficients = mutableListOf()
+        if (startIndex != -1) for (i in 0 until (coeffs.size - startIndex)) this.coefficients.add(coeffs[coeffs.size - 1 - i])
     }
+
+    private fun reverse(element: MutableList<Double>): Polynom = Polynom(*element.toDoubleArray().reversedArray())
+
+    private fun resultSize(element1: MutableList<Double>, element2: MutableList<Double>): Int =
+        max(element1.size, element2.size)
 
     /**
      * Геттер: вернуть значение коэффициента при x^i
      */
-    fun coeff(i: Int): Double = coefficients.getOrNull(i) ?: throw IndexOutOfBoundsException()
+    fun coeff(i: Int): Double = coefficients.get(i)
 
     /**
      * Расчёт значения при заданном x
@@ -60,8 +63,6 @@ class Polynom(vararg coeffs: Double) {
     fun degree(): Int {
         val max = coefficients.size - 1
         return Math.max(max, 0)
-        //return if (max > 0) max
-        //else 0
     }
 
     /**
@@ -69,15 +70,14 @@ class Polynom(vararg coeffs: Double) {
      */
     operator fun plus(other: Polynom): Polynom {
         val resultCoefficients = mutableListOf<Double>()
-        val sizeResult = Math.max(coefficients.size, other.coefficients.size)
-        for (index in 0 until sizeResult) resultCoefficients.add(0.0)
+        for (index in 0 until resultSize(coefficients, other.coefficients)) resultCoefficients.add(0.0)
         for (index in 0 until coefficients.size) {
             resultCoefficients[index] += coefficients[index]
         }
         for (index in 0 until other.coefficients.size) {
             resultCoefficients[index] += other.coefficients[index]
         }
-        return Polynom(*resultCoefficients.toDoubleArray().reversedArray())
+        return reverse(resultCoefficients)
     }
 
     /**
@@ -88,14 +88,14 @@ class Polynom(vararg coeffs: Double) {
             if (it != 0.0) -it
             else 0.0
         }
-        return Polynom(*resultCoefficients.toDoubleArray().reversedArray())
+        return reverse(resultCoefficients as MutableList<Double>)
     }
 
     /**
      * Вычитание
      */
     operator fun minus(other: Polynom): Polynom {
-        val sizeResult = Math.max(coefficients.size, other.coefficients.size)
+        val sizeResult = resultSize(coefficients, other.coefficients)
         val resultCoefficients = MutableList(sizeResult) { 0.0 }
         val polynom1 = MutableList(sizeResult) { 0.0 }
         val polynom2 = MutableList(sizeResult) { 0.0 }
@@ -104,27 +104,27 @@ class Polynom(vararg coeffs: Double) {
         for (index in 0 until sizeResult) {
             resultCoefficients[index] = polynom1[index] - polynom2[index]
         }
-        return Polynom(*resultCoefficients.toDoubleArray().reversedArray())
+        return reverse(resultCoefficients)
     }
 
     /**
      * Умножение
      */
     operator fun times(other: Polynom): Polynom {
-        val resultCoefficients = MutableList(coefficients.size + other.coefficients.size - 1) { 0.0 }
+        val resultCoefficients = MutableList(coefficients.size + other.coefficients.size) { 0.0 }
         for (index in 0 until coefficients.size) {
             for (indexOther in 0 until other.coefficients.size) {
                 resultCoefficients[index + indexOther] += coefficients[index] * other.coefficients[indexOther]
             }
         }
-        return Polynom(*resultCoefficients.toDoubleArray().reversedArray())
+        return reverse(resultCoefficients)
     }
 
     fun divWithRem(other: Polynom): Pair<Polynom, Polynom> {
         if (other.coefficients.size == 0) throw IllegalArgumentException()
         if (other.degree() > this.degree()) return Pair(
             Polynom(),
-            Polynom(*this.coefficients.toDoubleArray().reversedArray())
+            reverse(this.coefficients)
         )
         val currentCoefficients = coefficients.map { it }.toMutableList()
         val result = mutableListOf<Double>()
@@ -141,7 +141,7 @@ class Polynom(vararg coeffs: Double) {
         }
         return Pair(
             Polynom(*result.toDoubleArray()),
-            Polynom(*currentCoefficients.toDoubleArray().reversedArray())
+            reverse(currentCoefficients)
         )
     }
 

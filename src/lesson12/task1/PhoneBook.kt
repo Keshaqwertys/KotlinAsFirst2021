@@ -27,19 +27,19 @@ class PhoneBook {
     )
 
     private fun searchName(name: String): Node? {
-        var current = start
-        while (current != null) {
-            if (current.name == name) return current
-            current = current.next
+        var curSegment = start
+        while (curSegment != null) {
+            if (curSegment.name == name) return curSegment
+            curSegment = curSegment.next
         }
         return null
     }
 
     private fun searchPhone(phone: String): Node? {
-        var current = start
-        while (current != null) {
-            if (phone in current.phones) return current
-            current = current.next
+        var curSegment = start
+        while (curSegment != null) {
+            if (phone in curSegment.phones) return curSegment
+            curSegment = curSegment.next
         }
         return null
     }
@@ -63,15 +63,17 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
+
     fun removeHuman(name: String): Boolean {
         return if (searchName(name) == null) false
         else {
-            if (start!!.name == name) start = start!!.next
-            else {
-                var current = start!!
-                while (current.next!!.name != name) {
-                    current = current.next!!
+            var currentElement = start!!
+            while (currentElement!!.next != null) {
+                if (currentElement.next!!.name == name) {
+                    currentElement.next = currentElement.next!!.next
+                    break
                 }
+                currentElement = currentElement.next!!
             }
             true
         }
@@ -124,6 +126,19 @@ class PhoneBook {
      */
     fun humanByPhone(phone: String): String? = searchPhone(phone)?.name
 
+    fun getLength(): Int {
+        var curent = start
+        var count = 0
+        if (curent != null) {
+            while (curent!!.next != null) {
+                curent = curent.next
+                count++
+            }
+            count += 1
+        }
+        return count
+    }
+
     /**
      * Две телефонные книги равны, если в них хранится одинаковый набор людей,
      * и каждому человеку соответствует одинаковый набор телефонов.
@@ -132,19 +147,11 @@ class PhoneBook {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PhoneBook) return false
-        var otherCount = 0
         var current = other.start
         while (current != null) {
             if (current.phones != searchName(current.name)?.phones) return false
             current = current.next
-            otherCount++
         }
-        var ourCount = 0
-        current = start
-        while (current != null) {
-            current = current.next
-            ourCount++
-        }
-        return ourCount == otherCount
+        return this.getLength() == other.getLength()
     }
 }
