@@ -62,7 +62,7 @@ class Polynom(vararg coeffs: Double) {
      */
     fun degree(): Int {
         val max = coefficients.size - 1
-        return Math.max(max, 0)
+        return max(max, 0)
     }
 
     /**
