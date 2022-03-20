@@ -68,7 +68,7 @@ class PhoneBook {
         return if (searchName(name) == null) false
         else {
             var currentElement = start!!
-            while (currentElement!!.next != null) {
+            while (currentElement.next != null) {
                 if (currentElement.next!!.name == name) {
                     currentElement.next = currentElement.next!!.next
                     break
@@ -88,10 +88,10 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        val need = searchName(name)
-        return if ((need == null) || (searchPhone(phone) != null)) false
-        else {
-            need.phones += phone
+        return if ((searchName(name) == null) || (searchPhone(phone) != null)) {
+            false
+        } else {
+            searchName(name)!!.phones += phone
             true
         }
     }
@@ -103,10 +103,10 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        val need = searchName(name)
-        return if ((need == null) || (phone !in need.phones)) false
-        else {
-            need.phones -= phone
+        return if ((searchName(name) == null) || (phone !in searchName(name)!!.phones)) {
+            false
+        } else {
+            searchName(name)!!.phones -= phone
             true
         }
     }
@@ -115,10 +115,7 @@ class PhoneBook {
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> {
-        val need = searchName(name)
-        return need?.phones ?: setOf<String>()
-    }
+    fun phones(name: String): Set<String> = searchName(name)?.phones ?: setOf<String>()
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
