@@ -21,24 +21,24 @@ class PhoneBook {
     private var start: Node? = null
 
     private class Node(
-        val name: String,
+        val human: String,
         var phones: Set<String>,
         var next: Node?
     )
 
-    private fun searchName(name: String): Node? {
+    private fun search(element: String): Node? {
         var curSegment = start
+        val need: String =
+            if (Regex("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}\$").matches(element)) {
+                "phone"
+            } else {
+                "human"
+            }
         while (curSegment != null) {
-            if (curSegment.name == name) return curSegment
-            curSegment = curSegment.next
-        }
-        return null
-    }
-
-    private fun searchPhone(phone: String): Node? {
-        var curSegment = start
-        while (curSegment != null) {
-            if (phone in curSegment.phones) return curSegment
+            when (need) {
+                "human" -> if (curSegment.human == element) return curSegment
+                "phone" -> if (element in curSegment.phones) return curSegment
+            }
             curSegment = curSegment.next
         }
         return null
@@ -51,7 +51,7 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun addHuman(name: String): Boolean {
-        return if (searchName(name) == null) {
+        return if (search(name) == null) {
             start = Node(name, setOf(), start)
             true
         } else false
@@ -65,11 +65,11 @@ class PhoneBook {
      */
 
     fun removeHuman(name: String): Boolean {
-        return if (searchName(name) == null) false
+        return if (search(name) == null) false
         else {
             var currentElement = start!!
             while (currentElement.next != null) {
-                if (currentElement.next!!.name == name) {
+                if (currentElement.next!!.human == name) {
                     currentElement.next = currentElement.next!!.next
                     break
                 }
@@ -88,10 +88,10 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        return if ((searchName(name) == null) || (searchPhone(phone) != null)) {
+        return if ((search(name) == null) || (search(phone) != null)) {
             false
         } else {
-            searchName(name)!!.phones += phone
+            search(name)!!.phones += phone
             true
         }
     }
@@ -103,10 +103,10 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        return if ((searchName(name) == null) || (phone !in searchName(name)!!.phones)) {
+        return if ((search(name) == null) || (phone !in search(name)!!.phones)) {
             false
         } else {
-            searchName(name)!!.phones -= phone
+            search(name)!!.phones -= phone
             true
         }
     }
@@ -115,13 +115,13 @@ class PhoneBook {
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> = searchName(name)?.phones ?: setOf<String>()
+    fun phones(name: String): Set<String> = search(name)?.phones ?: setOf<String>()
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
      * Если такого номера нет в книге, вернуть null.
      */
-    fun humanByPhone(phone: String): String? = searchPhone(phone)?.name
+    fun humanByPhone(phone: String): String? = search(phone)?.human
 
     fun getLength(): Int {
         var curent = start
@@ -146,7 +146,7 @@ class PhoneBook {
         if (other !is PhoneBook) return false
         var current = other.start
         while (current != null) {
-            if (current.phones != searchName(current.name)?.phones) return false
+            if (current.phones != search(current.human)?.phones) return false
             current = current.next
         }
         return this.getLength() == other.getLength()
